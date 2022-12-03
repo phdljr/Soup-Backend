@@ -2,8 +2,10 @@ package kr.ac.soup.dto;
 
 import lombok.*;
 
-@ToString
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class LoginRequestDto {
     private String email;
     private String password;

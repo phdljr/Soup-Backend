@@ -3,11 +3,10 @@ package kr.ac.soup.dto;
 import kr.ac.soup.entity.MemberType;
 import lombok.*;
 
+@Data
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class LoginResponseDto {
     private Long memberId;
     private String nickname;
