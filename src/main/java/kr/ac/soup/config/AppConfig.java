@@ -1,5 +1,6 @@
 package kr.ac.soup.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,11 +24,12 @@ import java.util.Properties;
 @PropertySource({"classpath:persistence-h2.properties"}) // 설정 파일 읽어들임. environment에 저장됨
 @EnableTransactionManagement // 트랜잭션을 사용하기 위한 설정
 @EnableJpaRepositories(basePackages = {"kr.ac.soup.repository"}) // JpaRepository로 인식해주는 설정
+@RequiredArgsConstructor
 public class AppConfig {
-    @Autowired
-    private Environment environment;
 
-    //    @Bean
+    private final Environment environment;
+
+    @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
@@ -62,7 +64,7 @@ public class AppConfig {
         return em;
     }
 
-    public Properties additionalProperties() {
+    private Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
