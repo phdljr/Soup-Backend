@@ -11,8 +11,11 @@ repositories {
 }
 
 dependencies {
+    // test
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    // https://mvnrepository.com/artifact/org.springframework/spring-test
+    testImplementation 'org.springframework:spring-test:5.3.24'
 
     // spring
     // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
@@ -38,6 +41,9 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.5.1'
     // https://mvnrepository.com/artifact/com.h2database/h2
     implementation 'com.h2database:h2:2.1.214'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 }
 
 test {
