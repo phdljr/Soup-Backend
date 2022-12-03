@@ -38,6 +38,10 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.5.1'
     // https://mvnrepository.com/artifact/com.h2database/h2
     implementation 'com.h2database:h2:2.1.214'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+
 }
 
 test {
