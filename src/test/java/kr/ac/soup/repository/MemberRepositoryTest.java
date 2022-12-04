@@ -19,7 +19,7 @@ class MemberRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    @Transactional // 테스트 끝나면 DB에 저장되는 데이터 롤백시킴
+//    @Transactional // 테스트 끝나면 DB에 저장되는 데이터 롤백시킴
     public void 로그인_데이터_조회(){
         Member member = Member.builder()
                 .email("test@test.test")
