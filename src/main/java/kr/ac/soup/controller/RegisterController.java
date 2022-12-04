@@ -1,7 +1,7 @@
 package kr.ac.soup.controller;
 
 import kr.ac.soup.dto.RegisterDTO;
-import kr.ac.soup.sercvice.RegisterServiceImpl;
+import kr.ac.soup.service.RegisterServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package kr.ac.soup.sercvice;
+package kr.ac.soup.service;
 
 import kr.ac.soup.dto.RegisterDTO;
 
