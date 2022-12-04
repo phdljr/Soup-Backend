@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -16,5 +16,5 @@ public class BoardResponseDto {
     private String nickname;
     private String title;
     private String content;
-    private LocalDate registerDate;
+    private LocalDateTime registerDate;
 }
