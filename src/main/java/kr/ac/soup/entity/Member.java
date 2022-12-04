@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,5 +31,5 @@ public class Member {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDate registerDate;
+    private LocalDateTime registerDate;
 }
