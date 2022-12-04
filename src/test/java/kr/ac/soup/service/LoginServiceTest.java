@@ -3,15 +3,10 @@ package kr.ac.soup.service;
 import kr.ac.soup.config.WebConfig;
 import kr.ac.soup.dto.LoginResponseDto;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WebConfig.class})
-@WebAppConfiguration
+@SpringJUnitWebConfig(classes = {WebConfig.class})
 class LoginServiceTest {
 
     @Autowired
