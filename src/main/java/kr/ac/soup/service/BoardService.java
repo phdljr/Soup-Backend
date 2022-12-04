@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardService {
-    List<BoardResponseDto> getBoardList();
+    List<BoardResponseDto> getBoardList(int pageNumber);
     Optional<Board> getBoard(Long id);
 }

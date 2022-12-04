@@ -19,8 +19,9 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public List<BoardResponseDto> getBoardList() {
-        PageRequest pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
+    public List<BoardResponseDto> getBoardList(int pageNumber) {
+        // 0이 1페이지로 인식
+        PageRequest pageable = PageRequest.of(pageNumber - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
         Page<Board> boardList = boardRepository.findAll(pageable);
 
         List<BoardResponseDto> result = boardList.map(board ->

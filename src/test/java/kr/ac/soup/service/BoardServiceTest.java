@@ -16,7 +16,7 @@ class BoardServiceTest {
 
     @Test
     void getBoardList() {
-        List<BoardResponseDto> boardList = boardService.getBoardList();
+        List<BoardResponseDto> boardList = boardService.getBoardList(1);
         boardList.forEach(System.out::println);
     }
 }
