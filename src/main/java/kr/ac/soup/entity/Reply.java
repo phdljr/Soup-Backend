@@ -29,6 +29,7 @@ public class Reply {
     private String content;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDate registerDate;
 
     @LastModifiedDate

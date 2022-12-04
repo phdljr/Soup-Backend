@@ -29,5 +29,6 @@ public class Member {
     private MemberType memberType;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDate registerDate;
 }
