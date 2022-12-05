@@ -1,21 +1,16 @@
 package kr.ac.soup.entity;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Board {
+public class Board extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -28,10 +23,8 @@ public class Board {
 
     private String content;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime registerDate;
-
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
+    public void updateBoard(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

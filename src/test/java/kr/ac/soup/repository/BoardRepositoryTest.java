@@ -21,7 +21,7 @@ class BoardRepositoryTest {
 
     @Test
     void 더미_데이터_생성() {
-        IntStream.range(1, 101).forEach(i -> {
+        IntStream.range(1, 16).forEach(i -> {
             Member member = Member.builder()
                     .email("test@test.test" + i)
                     .memberType(MemberType.USER)
@@ -31,7 +31,7 @@ class BoardRepositoryTest {
             memberRepository.save(member);
         });
 
-        LongStream.range(1, 101).forEach(i -> {
+        LongStream.range(1, 16).forEach(i -> {
             Board board = Board.builder()
                     .member(memberRepository.findById(i).get())
                     .title("test" + i)
