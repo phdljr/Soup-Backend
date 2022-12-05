@@ -1,20 +1,16 @@
 package kr.ac.soup.entity;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,8 +25,4 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime registerDate;
 }
