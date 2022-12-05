@@ -1,8 +1,10 @@
 package kr.ac.soup.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -15,12 +17,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
+    @Column(unique = true)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
+
+    @CreatedDate
+    private LocalDate registerDate;
 }

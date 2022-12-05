@@ -21,7 +21,7 @@ public class LoginController {
     @GetMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         LoginResponseDto loginResponseDto = loginService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
-        if(Objects.isNull(loginResponseDto)){
+        if (Objects.isNull(loginResponseDto)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(loginResponseDto);
