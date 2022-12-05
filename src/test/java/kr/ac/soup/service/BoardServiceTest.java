@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,10 +54,33 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("게시글 10개를 생성일자 기준으로 내림차순해서 가져온다.")
+    @Transactional
     void getBoardList() {
+        createDummyData();
         List<BoardResponseDto> boardList = boardService.getBoardList(1);
 
         assertThat(boardList.size()).isEqualTo(10);
+    }
+
+    private void createDummyData(){
+        IntStream.range(1, 16).forEach(i -> {
+            Member member = Member.builder()
+                    .email("test@test.test" + i)
+                    .memberType(MemberType.USER)
+                    .nickname("test" + i)
+                    .password("tttt" + i)
+                    .build();
+            memberRepository.save(member);
+        });
+
+        LongStream.range(1, 16).forEach(i -> {
+            Board board = Board.builder()
+                    .member(memberRepository.findById(i).get())
+                    .title("test" + i)
+                    .content("" + i)
+                    .build();
+            boardRepository.save(board);
+        });
     }
 
     @Test
