@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,6 +23,7 @@ import java.util.Properties;
 @PropertySource({"classpath:persistence-h2.properties"}) // 설정 파일 읽어들임. environment에 저장됨
 @EnableTransactionManagement // 트랜잭션을 사용하기 위한 설정
 @EnableJpaRepositories(basePackages = {"kr.ac.soup.repository"}) // JpaRepository로 인식해주는 설정
+@EnableJpaAuditing // @CreatedDate, @LastModifiedDate 적용하기 위해서 설정. Entity가 저장, 수정, 삭제될 때 콜백 호출하는 역할
 @RequiredArgsConstructor
 public class AppConfig {
 

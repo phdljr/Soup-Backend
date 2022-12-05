@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,8 +30,9 @@ public class Reply {
     private String content;
 
     @CreatedDate
-    private LocalDate registerDate;
+    @Column(updatable = false)
+    private LocalDateTime registerDate;
 
     @LastModifiedDate
-    private LocalDate modifyDate;
+    private LocalDateTime modifyDate;
 }
