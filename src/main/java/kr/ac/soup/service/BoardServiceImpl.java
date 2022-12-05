@@ -19,24 +19,31 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public List<BoardResponseDto> getBoardList(int pageNumber) {
+    public List<BoardResponseDto> getBoardList(int page) {
         // 0이 1페이지로 인식
-        PageRequest pageable = PageRequest.of(pageNumber - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
+        PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
         Page<Board> boardList = boardRepository.findAll(pageable);
 
-        List<BoardResponseDto> result = boardList.map(board ->
+        return boardList.map(board ->
+                BoardResponseDto.builder()
+                        .id(board.getId())
+                        .title(board.getTitle())
+                        .registerDate(board.getRegisterDate())
+                        .build()
+        ).stream().toList();
+    }
+
+    @Override
+    public BoardResponseDto getBoard(Long id) {
+        Optional<Board> findBoard = boardRepository.findById(id);
+
+        return findBoard.map(board ->
                 BoardResponseDto.builder()
                         .id(board.getId())
                         .title(board.getTitle())
                         .content(board.getContent())
                         .registerDate(board.getRegisterDate())
                         .build()
-        ).stream().toList();
-        return result;
-    }
-
-    @Override
-    public Optional<Board> getBoard(Long id) {
-        return Optional.empty();
+        ).get();
     }
 }
