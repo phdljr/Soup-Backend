@@ -1,7 +1,7 @@
 package kr.ac.soup.controller;
 
-import kr.ac.soup.dto.BoardPostRequestDto;
-import kr.ac.soup.dto.BoardResponseDto;
+import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

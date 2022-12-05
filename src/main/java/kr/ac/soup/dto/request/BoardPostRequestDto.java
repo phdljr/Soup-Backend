@@ -1,4 +1,4 @@
-package kr.ac.soup.dto;
+package kr.ac.soup.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

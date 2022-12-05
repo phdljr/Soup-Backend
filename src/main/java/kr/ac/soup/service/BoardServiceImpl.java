@@ -1,7 +1,7 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.dto.BoardPostRequestDto;
-import kr.ac.soup.dto.BoardResponseDto;
+import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.repository.BoardRepository;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

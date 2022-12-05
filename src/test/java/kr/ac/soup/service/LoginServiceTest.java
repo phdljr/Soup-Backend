@@ -1,7 +1,7 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.config.WebConfig;
-import kr.ac.soup.dto.LoginResponseDto;
+import kr.ac.soup.config.web.WebConfig;
+import kr.ac.soup.dto.response.LoginResponseDto;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
 import kr.ac.soup.repository.MemberRepository;

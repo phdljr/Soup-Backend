@@ -1,4 +1,4 @@
-package kr.ac.soup.dto;
+package kr.ac.soup.dto.response;
 
 import kr.ac.soup.entity.MemberType;
 import lombok.*;
