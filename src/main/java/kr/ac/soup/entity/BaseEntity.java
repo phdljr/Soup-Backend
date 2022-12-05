@@ -17,9 +17,10 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity {
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "REGISTER_DATE", updatable = false)
     private LocalDateTime registerDate;
 
     @LastModifiedDate
+    @Column(name = "MODIFY_DATE")
     private LocalDateTime modifyDate;
 }

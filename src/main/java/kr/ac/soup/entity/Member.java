@@ -24,5 +24,6 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "MEMBER_TYPE")
     private MemberType memberType;
 }
