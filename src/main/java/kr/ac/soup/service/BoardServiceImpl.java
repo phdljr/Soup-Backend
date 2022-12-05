@@ -1,8 +1,11 @@
 package kr.ac.soup.service;
 
+import kr.ac.soup.dto.BoardPostRequestDto;
 import kr.ac.soup.dto.BoardResponseDto;
 import kr.ac.soup.entity.Board;
+import kr.ac.soup.entity.Member;
 import kr.ac.soup.repository.BoardRepository;
+import kr.ac.soup.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +20,7 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public List<BoardResponseDto> getBoardList(int page) {
@@ -45,5 +49,41 @@ public class BoardServiceImpl implements BoardService {
                         .registerDate(board.getRegisterDate())
                         .build()
         ).get();
+    }
+
+    @Override
+    public Long postBoard(BoardPostRequestDto boardPostRequestDto) {
+        Optional<Member> findMember = memberRepository.findById(boardPostRequestDto.getMemberId());
+        if (findMember.isEmpty()) {
+            return null;
+        }
+        Board board = Board.builder()
+                .member(findMember.get())
+                .title(boardPostRequestDto.getTitle())
+                .content(boardPostRequestDto.getContent())
+                .build();
+
+        // 위의 board랑 밑의 board는 서로 다른 객체라는 사실 잘 인지해두기
+        board = boardRepository.save(board);
+
+        return board.getId();
+    }
+
+    @Override
+    public Long updateBoard(Long id, BoardPostRequestDto boardPostRequestDto) {
+        Optional<Board> findBoard = boardRepository.findById(id);
+        if(findBoard.isEmpty()){
+            return null;
+        }
+
+        Board board = findBoard.get();
+        board.updateBoard(boardPostRequestDto.getTitle(), boardPostRequestDto.getContent());
+        return board.getId();
+    }
+
+    @Override
+    public Long deleteBoard(Long id) {
+        boardRepository.deleteById(id);
+        return id;
     }
 }

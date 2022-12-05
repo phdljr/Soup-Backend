@@ -34,4 +34,9 @@ public class Board {
 
     @LastModifiedDate
     private LocalDateTime modifyDate;
+
+    public void updateBoard(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }
