@@ -27,7 +27,7 @@ public class RegisterServiceTest {
     @Test
     @DisplayName("회원가입을 시도한다.")
     @Transactional
-    void register(){
+    void register() {
         RegisterRequestDto registerRequestDto = RegisterRequestDto.builder()
                 .email("test@test.com")
                 .nickname("test")
@@ -36,11 +36,9 @@ public class RegisterServiceTest {
         registerService.register(registerRequestDto);
 
         Member registerMember = memberRepository.findByNickname("test").get();
+
         assertThat(registerRequestDto.getNickname()).isEqualTo(registerMember.getNickname());
         assertThat(registerRequestDto.getEmail()).isEqualTo(registerMember.getEmail());
-
-
-
     }
 
 }
