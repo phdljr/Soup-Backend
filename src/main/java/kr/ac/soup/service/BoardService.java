@@ -8,11 +8,11 @@ import java.util.List;
 public interface BoardService {
     List<BoardResponseDto> getBoardList(int page);
 
-    BoardResponseDto getBoard(Long id);
+    BoardResponseDto getBoard(Long boardId);
 
     Long postBoard(BoardPostRequestDto boardPostRequestDto);
 
-    Long updateBoard(Long id, BoardPostRequestDto boardPostRequestDto);
+    Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto);
 
-    Long deleteBoard(Long id);
+    Long deleteBoard(Long boardId);
 }

@@ -1,6 +1,6 @@
 package kr.ac.soup.repository;
 
-import kr.ac.soup.config.root.DatabaseAndJPAConfig;
+import kr.ac.soup.config.root.PersistenceConfig;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-@SpringJUnitConfig(classes = {DatabaseAndJPAConfig.class})
+@SpringJUnitConfig(classes = {PersistenceConfig.class})
 class BoardRepositoryTest {
 
     @Autowired

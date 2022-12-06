@@ -28,9 +28,9 @@ public class BoardController {
     }
 
     // 게시글 조회
-    @GetMapping("/board/{id}")
-    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long id){
-        BoardResponseDto result = boardService.getBoard(id);
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable Long boardId){
+        BoardResponseDto result = boardService.getBoard(boardId);
         if (Objects.isNull(result)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -45,16 +45,16 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PutMapping("/board/{id}")
-    public ResponseEntity<?> updateBoard(@PathVariable Long id, @RequestBody BoardPostRequestDto boardPostRequestDto){
-        Long result = boardService.updateBoard(id, boardPostRequestDto);
+    @PutMapping("/board/{boardId}")
+    public ResponseEntity<?> updateBoard(@PathVariable Long boardId, @RequestBody BoardPostRequestDto boardPostRequestDto){
+        Long result = boardService.updateBoard(boardId, boardPostRequestDto);
         return ResponseEntity.ok(result);
     }
 
     // 게시글 삭제
-    @DeleteMapping("/board/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long id){
-        Long result = boardService.deleteBoard(id);
+    @DeleteMapping("/board/{boardId}")
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId){
+        Long result = boardService.deleteBoard(boardId);
         return ResponseEntity.ok(result);
     }
 }
