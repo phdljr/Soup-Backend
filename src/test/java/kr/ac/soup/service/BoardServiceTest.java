@@ -1,8 +1,8 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.config.WebConfig;
-import kr.ac.soup.dto.BoardPostRequestDto;
-import kr.ac.soup.dto.BoardResponseDto;
+import kr.ac.soup.config.web.WebConfig;
+import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;

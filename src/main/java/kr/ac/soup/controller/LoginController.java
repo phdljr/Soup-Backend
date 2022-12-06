@@ -1,7 +1,7 @@
 package kr.ac.soup.controller;
 
-import kr.ac.soup.dto.LoginRequestDto;
-import kr.ac.soup.dto.LoginResponseDto;
+import kr.ac.soup.dto.request.LoginRequestDto;
+import kr.ac.soup.dto.response.LoginResponseDto;
 import kr.ac.soup.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

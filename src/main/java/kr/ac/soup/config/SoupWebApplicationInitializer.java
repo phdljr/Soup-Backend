@@ -1,5 +1,9 @@
 package kr.ac.soup.config;
 
+
+import kr.ac.soup.config.root.PersistenceConfig;
+import kr.ac.soup.config.root.SwaggerConfig;
+import kr.ac.soup.config.web.WebConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -14,12 +18,14 @@ public class SoupWebApplicationInitializer extends AbstractAnnotationConfigDispa
     }
 
     // 비즈니스 로직 설정
+    // ContextLoaderListner에 매핑되는 빈 설정(DispatcherServlet보다 먼저 빈이 등록됨)
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{AppConfig.class};
+        return new Class[]{PersistenceConfig.class, SwaggerConfig.class};
     }
 
-    // 스프링 설정 클래스 설정
+    // 스프링 MVC 설정 클래스 설정
+    // DispatcherServlet에 매핑되는 빈 설정
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{WebConfig.class};

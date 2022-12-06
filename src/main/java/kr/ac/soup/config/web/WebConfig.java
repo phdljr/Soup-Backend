@@ -1,4 +1,4 @@
-package kr.ac.soup.config;
+package kr.ac.soup.config.web;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

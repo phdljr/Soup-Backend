@@ -1,6 +1,6 @@
 package kr.ac.soup.repository;
 
-import kr.ac.soup.config.AppConfig;
+import kr.ac.soup.config.root.DatabaseAndJPAConfig;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringJUnitConfig(classes = {AppConfig.class})
+@SpringJUnitConfig(classes = {DatabaseAndJPAConfig.class})
 class MemberRepositoryTest {
 
     @Autowired

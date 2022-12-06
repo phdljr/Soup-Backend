@@ -1,7 +1,7 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.dto.BoardPostRequestDto;
-import kr.ac.soup.dto.BoardResponseDto;
+import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardResponseDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package kr.ac.soup.config;
+package kr.ac.soup.config.root;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +25,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = {"kr.ac.soup.repository"}) // JpaRepository로 인식해주는 설정
 @EnableJpaAuditing // @CreatedDate, @LastModifiedDate 적용하기 위해서 설정. Entity가 저장, 수정, 삭제될 때 콜백 호출하는 역할
 @RequiredArgsConstructor
-public class AppConfig {
+public class PersistenceConfig {
 
     private final Environment environment;
 
