@@ -1,12 +1,12 @@
-package kr.ac.soup.config;
+package kr.ac.soup.config.root;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -23,11 +23,13 @@ import java.util.Properties;
 @PropertySource({"classpath:persistence-h2.properties"}) // 설정 파일 읽어들임. environment에 저장됨
 @EnableTransactionManagement // 트랜잭션을 사용하기 위한 설정
 @EnableJpaRepositories(basePackages = {"kr.ac.soup.repository"}) // JpaRepository로 인식해주는 설정
-public class AppConfig {
-    @Autowired
-    private Environment environment;
+@EnableJpaAuditing // @CreatedDate, @LastModifiedDate 적용하기 위해서 설정. Entity가 저장, 수정, 삭제될 때 콜백 호출하는 역할
+@RequiredArgsConstructor
+public class PersistenceConfig {
 
-    //    @Bean
+    private final Environment environment;
+
+    @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
@@ -62,12 +64,13 @@ public class AppConfig {
         return em;
     }
 
-    public Properties additionalProperties() {
+    private Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", environment.getProperty("hibernate.cache.use_second_level_cache"));
         hibernateProperties.setProperty("hibernate.cache.use_query_cache", environment.getProperty("hibernate.cache.use_query_cache"));
+        hibernateProperties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
         hibernateProperties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
 
         return hibernateProperties;

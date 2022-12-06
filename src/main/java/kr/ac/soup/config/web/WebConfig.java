@@ -1,7 +1,8 @@
-package kr.ac.soup.config;
+package kr.ac.soup.config.web;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,5 +19,10 @@ public class WebConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
-    // 나중에 ViewResolver 설정해두기(필요하면)
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST");
+    }
 }
