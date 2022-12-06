@@ -36,7 +36,7 @@ class BoardServiceTest {
     private static Board testBoard;
 
     @BeforeAll
-    public static void setUp(){
+    public static void setUp() {
         testMember = Member.builder()
                 .id(1234L)
                 .email("test@gmail.com")
@@ -62,7 +62,7 @@ class BoardServiceTest {
         assertThat(boardList.size()).isEqualTo(10);
     }
 
-    private void createDummyData(){
+    private void createDummyData() {
         IntStream.range(1, 16).forEach(i -> {
             Member member = Member.builder()
                     .email("test@test.test" + i)
@@ -105,7 +105,7 @@ class BoardServiceTest {
     @Test
     @DisplayName("게시글 등록후 업데이트하고 다시 가져와서 변경된 내용을 비교한다.")
     @Transactional
-    void updateBoard(){
+    void updateBoard() {
         Board saveBoard = boardRepository.save(testBoard);
 
         BoardPostRequestDto dto = BoardPostRequestDto.builder()
@@ -125,7 +125,7 @@ class BoardServiceTest {
     @Test
     @DisplayName("게시글이 삭제되었는지 확인한다.")
     @Transactional
-    void deleteBoard(){
+    void deleteBoard() {
         Board saveBoard = boardRepository.save(testBoard);
 
         Long boardId = boardService.deleteBoard(saveBoard.getId());

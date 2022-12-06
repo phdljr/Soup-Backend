@@ -1,11 +1,11 @@
 package kr.ac.soup.repository;
 
-import kr.ac.soup.config.root.PersistenceConfig;
+import kr.ac.soup.config.web.WebConfig;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringJUnitConfig(classes = {PersistenceConfig.class})
+@SpringJUnitWebConfig(classes = {WebConfig.class})
 class MemberRepositoryTest {
 
     @Autowired

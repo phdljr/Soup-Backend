@@ -1,17 +1,17 @@
 package kr.ac.soup.repository;
 
-import kr.ac.soup.config.root.PersistenceConfig;
+import kr.ac.soup.config.web.WebConfig;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-@SpringJUnitConfig(classes = {PersistenceConfig.class})
+@SpringJUnitWebConfig(classes = {WebConfig.class})
 class BoardRepositoryTest {
 
     @Autowired
