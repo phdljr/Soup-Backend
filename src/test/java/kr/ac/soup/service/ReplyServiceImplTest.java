@@ -10,6 +10,7 @@ import kr.ac.soup.entity.Reply;
 import kr.ac.soup.repository.BoardRepository;
 import kr.ac.soup.repository.MemberRepository;
 import kr.ac.soup.repository.ReplyRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,64 +39,8 @@ class ReplyServiceImplTest {
     private Board board;
     private Reply reply;
 
-    @Test
-    @DisplayName("게시글에 등록된 댓글의 개수를 가져온다.")
-    @Transactional
-    public void getReplyList() {
-        createDummyData();
-        List<ReplyResponseDto> replyList = replyService.getReplyList(board.getId());
-
-        assertThat(replyList.size()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("게시글에 댓글을 등록한다.")
-    @Transactional
-    public void postReply(){
-        createDummyData();
-        ReplyRequestDto dto = ReplyRequestDto.builder()
-                .boardId(board.getId())
-                .memberId(member.getId())
-                .content("postTest").build();
-        Long postReplyId = replyService.postReply(dto);
-
-        Reply findReply = replyRepository.findById(postReplyId).get();
-
-        assertThat(findReply.getId()).isEqualTo(postReplyId);
-        assertThat(findReply.getBoard().getId()).isEqualTo(dto.getBoardId());
-        assertThat(findReply.getMember().getId()).isEqualTo(dto.getMemberId());
-        assertThat(findReply.getContent()).isEqualTo(dto.getContent());
-    }
-
-    @Test
-    @DisplayName("게시글에 등록된 댓글을 수정한다.")
-    @Transactional
-    public void updateReply(){
-        createDummyData();
-        ReplyRequestDto dto = ReplyRequestDto.builder()
-                .boardId(board.getId())
-                .memberId(member.getId())
-                .content("updateContent").build();
-        Long updateReplyId = replyService.updateReply(reply.getId(), dto);
-
-        Reply findReply = replyRepository.findById(updateReplyId).get();
-
-        assertThat(findReply.getContent()).isEqualTo(dto.getContent());
-    }
-
-    @Test
-    @DisplayName("게시글에 등록된 댓글을 삭제한다.")
-    @Transactional
-    public void deleteReply(){
-        createDummyData();
-        Long deleteReplyId = replyService.deleteReply(reply.getId());
-
-        Optional<Reply> result = replyRepository.findById(deleteReplyId);
-
-        assertThat(result).isEmpty();
-    }
-
-    private void createDummyData() {
+    @BeforeEach
+    public void setUp(){
         member = Member.builder()
                 .email("test@test.test")
                 .memberType(MemberType.USER)
@@ -114,5 +60,77 @@ class ReplyServiceImplTest {
                 .content("testReplyContent")
                 .build();
         reply = replyRepository.save(reply);
+    }
+
+    @Test
+    @DisplayName("게시글에 등록된 댓글의 개수를 가져온다.")
+    @Transactional
+    public void getReplyList() {
+        List<ReplyResponseDto> replyList = replyService.getReplyList(board.getId());
+
+        assertThat(replyList.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("게시글에 댓글을 등록한다.")
+    @Transactional
+    public void postReply(){
+        ReplyRequestDto dto = ReplyRequestDto.builder()
+                .boardId(board.getId())
+                .memberId(member.getId())
+                .content("postTest").build();
+        Long postReplyId = replyService.postReply(dto);
+
+        Reply findReply = replyRepository.findById(postReplyId).get();
+
+        assertThat(findReply.getId()).isEqualTo(postReplyId);
+        assertThat(findReply.getBoard().getId()).isEqualTo(dto.getBoardId());
+        assertThat(findReply.getMember().getId()).isEqualTo(dto.getMemberId());
+        assertThat(findReply.getContent()).isEqualTo(dto.getContent());
+    }
+
+    @Test
+    @DisplayName("게시글에 등록된 댓글 리스트를 가져와 개수를 비교한다.")
+    @Transactional
+    public void addReply_OneToMany_테스트(){
+        // 댓글 10개 추가
+        IntStream.range(1, 11).forEach(i->{
+            ReplyRequestDto dto = ReplyRequestDto.builder()
+                    .boardId(board.getId())
+                    .memberId(member.getId())
+                    .content("testContent2")
+                    .build();
+            replyService.postReply(dto);
+        });
+
+        Board findBoard = boardRepository.findById(board.getId()).get();
+
+        assertThat(findBoard.getReplies().size()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("게시글에 등록된 댓글을 수정한다.")
+    @Transactional
+    public void updateReply(){
+        ReplyRequestDto dto = ReplyRequestDto.builder()
+                .boardId(board.getId())
+                .memberId(member.getId())
+                .content("updateContent").build();
+        Long updateReplyId = replyService.updateReply(reply.getId(), dto);
+
+        Reply findReply = replyRepository.findById(updateReplyId).get();
+
+        assertThat(findReply.getContent()).isEqualTo(dto.getContent());
+    }
+
+    @Test
+    @DisplayName("게시글에 등록된 댓글을 삭제한다.")
+    @Transactional
+    public void deleteReply(){
+        Long deleteReplyId = replyService.deleteReply(reply.getId());
+
+        Optional<Reply> result = replyRepository.findById(deleteReplyId);
+
+        assertThat(result).isEmpty();
     }
 }

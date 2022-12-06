@@ -6,9 +6,12 @@ import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
+import kr.ac.soup.entity.Reply;
 import kr.ac.soup.repository.BoardRepository;
 import kr.ac.soup.repository.MemberRepository;
+import kr.ac.soup.repository.ReplyRepository;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +34,14 @@ class BoardServiceTest {
     private BoardRepository boardRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
 
-    private static Member testMember;
-    private static Board testBoard;
+    private Member testMember;
+    private Board testBoard;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         testMember = Member.builder()
                 .id(1234L)
                 .email("test@gmail.com")
@@ -44,12 +49,14 @@ class BoardServiceTest {
                 .password("123456789")
                 .memberType(MemberType.USER)
                 .build();
+        testMember = memberRepository.save(testMember);
         testBoard = Board.builder()
                 .id(1234L)
                 .member(testMember)
                 .content("테스트 제목")
                 .title("테스트 내용")
                 .build();
+        testBoard = boardRepository.save(testBoard);
     }
 
     @Test
@@ -87,7 +94,6 @@ class BoardServiceTest {
     @DisplayName("게시글 등록후 다시 가져와서 값이 같은지 비교한다.")
     @Transactional
     void postBoard() {
-        testMember = memberRepository.save(testMember);
         BoardPostRequestDto dto = BoardPostRequestDto.builder()
                 .title("테스트 제목")
                 .content("테스트 내용")
@@ -106,14 +112,12 @@ class BoardServiceTest {
     @DisplayName("게시글 등록후 업데이트하고 다시 가져와서 변경된 내용을 비교한다.")
     @Transactional
     void updateBoard() {
-        Board saveBoard = boardRepository.save(testBoard);
-
         BoardPostRequestDto dto = BoardPostRequestDto.builder()
                 .title("테스트 제목 수정")
                 .content("테스트 내용 수정")
                 .memberId(testMember.getId())
                 .build();
-        Long updatedBoardId = boardService.updateBoard(saveBoard.getId(), dto);
+        Long updatedBoardId = boardService.updateBoard(testBoard.getId(), dto);
 
         Board findBoard = boardRepository.findById(updatedBoardId).get();
 
@@ -126,11 +130,28 @@ class BoardServiceTest {
     @DisplayName("게시글이 삭제되었는지 확인한다.")
     @Transactional
     void deleteBoard() {
-        Board saveBoard = boardRepository.save(testBoard);
-
-        Long boardId = boardService.deleteBoard(saveBoard.getId());
+        Long boardId = boardService.deleteBoard(testBoard.getId());
         Optional<Board> findBoard = boardRepository.findById(boardId);
 
         assertThat(findBoard).isEmpty();
+    }
+
+    @Test
+    @DisplayName("게시글을 삭제하면 연관된 댓글도 삭제되는지 확인한다.")
+    @Transactional
+    public void deleteBoard_reply_cascade_테스트(){
+        // 댓글 10개 추가
+        IntStream.range(1, 11).forEach(i->{
+            Reply reply = Reply.builder()
+                    .member(testMember)
+                    .board(testBoard)
+                    .content("cascade test")
+                    .build();
+            testBoard.addReply(reply);
+            replyRepository.save(reply);
+        });
+
+        boardService.deleteBoard(testBoard.getId());
+        assertThat(testBoard.getReplies()).isNullOrEmpty();
     }
 }
