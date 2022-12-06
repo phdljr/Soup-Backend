@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,4 +23,8 @@ public class Reply extends BaseEntity {
     private Board board;
 
     private String content;
+
+    public void updateReply(String content){
+        this.content = content;
+    }
 }
