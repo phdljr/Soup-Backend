@@ -2,18 +2,26 @@ package kr.ac.soup.service;
 
 import kr.ac.soup.dto.request.ReplyRequestDto;
 import kr.ac.soup.dto.response.ReplyResponseDto;
+import kr.ac.soup.entity.Board;
+import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.Reply;
+import kr.ac.soup.repository.BoardRepository;
+import kr.ac.soup.repository.MemberRepository;
 import kr.ac.soup.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
+
     private final ReplyRepository replyRepository;
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public List<ReplyResponseDto> getReplyList(Long boardId) {
@@ -32,16 +40,33 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public Long postReply(ReplyRequestDto replyRequestDto) {
-        return null;
+        Optional<Member> findMember = memberRepository.findById(replyRequestDto.getMemberId());
+        Optional<Board> findBoard = boardRepository.findById(replyRequestDto.getBoardId());
+        Reply reply = Reply.builder()
+                .member(findMember.get())
+                .board(findBoard.get())
+                .content(replyRequestDto.getContent())
+                .build();
+
+        reply = replyRepository.save(reply);
+
+        return reply.getId();
     }
 
     @Override
     public Long updateReply(Long replyId, ReplyRequestDto replyRequestDto) {
-        return null;
+        Optional<Reply> findReply = replyRepository.findById(replyId);
+        Reply reply = findReply.get();
+        reply.updateReply(replyRequestDto.getContent());
+        return reply.getId();
     }
 
     @Override
     public Long deleteReply(Long replyId) {
-        return null;
+        Optional<Reply> findReply = replyRepository.findById(replyId);
+        Reply reply = findReply.get();
+
+        replyRepository.deleteById(reply.getId());
+        return reply.getId();
     }
 }
