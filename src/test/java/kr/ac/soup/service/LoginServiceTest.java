@@ -24,7 +24,7 @@ class LoginServiceTest {
     @Test
     @DisplayName("로그인을 시도한다.")
     @Transactional
-    void login(){
+    void login() {
         Member member = Member.builder()
                 .email("test@test.test")
                 .memberType(MemberType.USER)

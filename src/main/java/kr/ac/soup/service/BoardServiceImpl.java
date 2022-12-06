@@ -38,8 +38,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardResponseDto getBoard(Long id) {
-        Optional<Board> findBoard = boardRepository.findById(id);
+    public BoardResponseDto getBoard(Long boardId) {
+        Optional<Board> findBoard = boardRepository.findById(boardId);
 
         return findBoard.map(board ->
                 BoardResponseDto.builder()
@@ -70,8 +70,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Long updateBoard(Long id, BoardPostRequestDto boardPostRequestDto) {
-        Optional<Board> findBoard = boardRepository.findById(id);
+    public Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) {
+        Optional<Board> findBoard = boardRepository.findById(boardId);
         if(findBoard.isEmpty()){
             return null;
         }
@@ -82,8 +82,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Long deleteBoard(Long id) {
-        boardRepository.deleteById(id);
-        return id;
+    public Long deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+        return boardId;
     }
 }
