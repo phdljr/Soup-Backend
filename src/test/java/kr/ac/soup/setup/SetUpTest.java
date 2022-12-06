@@ -1,5 +1,6 @@
 package kr.ac.soup.setup;
 
+import kr.ac.soup.config.web.WebConfig;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
@@ -7,10 +8,13 @@ import kr.ac.soup.entity.Reply;
 import kr.ac.soup.repository.BoardRepository;
 import kr.ac.soup.repository.MemberRepository;
 import kr.ac.soup.repository.ReplyRepository;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.stream.LongStream;
 
+@SpringJUnitWebConfig(classes = {WebConfig.class})
 public class SetUpTest {
 
     @Autowired
@@ -46,6 +50,7 @@ public class SetUpTest {
         reply = replyRepository.save(reply);
     }
 
+    @Test
     public void createDummyDataList() {
         LongStream.range(1, 16).forEach(i -> {
             Member member = Member.builder()
