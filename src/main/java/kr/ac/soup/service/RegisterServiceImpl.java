@@ -1,6 +1,6 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.dto.RegisterDTO;
+import kr.ac.soup.dto.request.RegisterRequestDto;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
 import kr.ac.soup.repository.MemberRepository;
@@ -18,11 +18,11 @@ public class RegisterServiceImpl implements RegisterService {
     private final MemberRepository memberRepository;
 
     @Override
-    public void Register(RegisterDTO registerDTO) {
+    public void register(RegisterRequestDto registerRequestDto) {
         Member member = Member.builder()
-                .email(registerDTO.getEmail())
-                .nickname(registerDTO.getNickname())
-                .password(registerDTO.getPassword())
+                .email(registerRequestDto.getEmail())
+                .nickname(registerRequestDto.getNickname())
+                .password(registerRequestDto.getPassword())
                 .memberType(MemberType.USER)
                 .build();
 
@@ -30,14 +30,14 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public boolean reduplicationEmailCheck(RegisterDTO registerDTO) {
-        Optional<Member> Email = memberRepository.findByEmail(registerDTO.getEmail());
-        return Email.isEmpty();
+    public boolean reduplicationEmailCheck(RegisterRequestDto registerRequestDto) {
+        Optional<Member> email = memberRepository.findByEmail(registerRequestDto.getEmail());
+        return email.isEmpty();
     }
 
     @Override
-    public boolean reduplicationNicknameCheck(RegisterDTO registerDTO) {
-        Optional<Member> NickName = memberRepository.findByNickname(registerDTO.getNickname());
-        return NickName.isEmpty();
+    public boolean reduplicationNicknameCheck(RegisterRequestDto registerRequestDto) {
+        Optional<Member> nickName = memberRepository.findByNickname(registerRequestDto.getNickname());
+        return nickName.isEmpty();
     }
 }
