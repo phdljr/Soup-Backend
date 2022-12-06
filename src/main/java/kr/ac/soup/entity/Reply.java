@@ -27,4 +27,8 @@ public class Reply extends BaseEntity {
     public void updateReply(String content){
         this.content = content;
     }
+
+    public void setBoard(Board board){
+        this.board = board;
+    }
 }

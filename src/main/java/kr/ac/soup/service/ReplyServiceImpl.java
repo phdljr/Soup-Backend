@@ -41,12 +41,17 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public Long postReply(ReplyRequestDto replyRequestDto) {
         Optional<Member> findMember = memberRepository.findById(replyRequestDto.getMemberId());
+        Member member = findMember.get();
+
         Optional<Board> findBoard = boardRepository.findById(replyRequestDto.getBoardId());
+        Board board = findBoard.get();
+
         Reply reply = Reply.builder()
-                .member(findMember.get())
-                .board(findBoard.get())
+                .member(member)
+                .board(board)
                 .content(replyRequestDto.getContent())
                 .build();
+        board.addReply(reply);
 
         reply = replyRepository.save(reply);
 
