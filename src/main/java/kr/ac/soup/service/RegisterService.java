@@ -1,11 +1,11 @@
 package kr.ac.soup.service;
 
-import kr.ac.soup.dto.RegisterDTO;
+import kr.ac.soup.dto.request.RegisterRequestDto;
 
 public interface RegisterService {
-    void Register(RegisterDTO registerDTO);
+    void register(RegisterRequestDto registerDTO);
 
-    boolean reduplicationEmailCheck(RegisterDTO registerDTO);
+    boolean reduplicationEmailCheck(RegisterRequestDto registerDTO);
 
-    boolean reduplicationNicknameCheck(RegisterDTO registerDTO);
+    boolean reduplicationNicknameCheck(RegisterRequestDto registerDTO);
 }
