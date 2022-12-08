@@ -18,7 +18,7 @@ public class SoupWebApplicationInitializer extends AbstractAnnotationConfigDispa
     }
 
     // 비즈니스 로직 설정
-    // ContextLoaderListner에 매핑되는 빈 설정(DispatcherServlet보다 먼저 빈이 등록됨)
+    // ContextLoaderListner에 매핑되는 빈 설정(전역 설정 파일이고, DispatcherServlet보다 먼저 빈이 등록됨)
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{PersistenceConfig.class, SwaggerConfig.class};
