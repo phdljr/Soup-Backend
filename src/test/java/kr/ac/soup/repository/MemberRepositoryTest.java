@@ -36,6 +36,7 @@ class MemberRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void 더미_데이터_생성() {
         IntStream.range(1, 101).forEach(i -> {
             Member member = Member.builder()

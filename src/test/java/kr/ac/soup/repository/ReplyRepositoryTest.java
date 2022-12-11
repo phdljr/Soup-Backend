@@ -15,13 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringJUnitWebConfig(classes = {WebConfig.class})
 class ReplyRepositoryTest extends SetUpTest {
 
-    @Test
-    @DisplayName("게시글에 등록된 댓글의 개수를 가져온다.")
-    @Transactional
-    void findAllByBoardIdOrderByRegisterDateAsc() {
-        createDummyDataList();
-        List<Reply> replyList = replyRepository.findAllByBoardIdOrderByRegisterDateAsc(1L);
-
-        assertThat(replyList.size()).isEqualTo(5);
-    }
+//    @Test
+//    @DisplayName("게시글에 등록된 댓글의 개수를 가져온다.")
+//    @Transactional
+//    void findAllByBoardIdOrderByRegisterDateAsc() {
+//        createDummyDataList();
+//        List<Reply> replyList = replyRepository.findAllByBoardIdOrderByRegisterDateAsc(1L);
+//
+//        assertThat(replyList.size()).isEqualTo(5);
+//    }
 }

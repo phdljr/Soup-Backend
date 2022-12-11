@@ -10,7 +10,6 @@ import kr.ac.soup.entity.Reply;
 import kr.ac.soup.repository.BoardRepository;
 import kr.ac.soup.repository.MemberRepository;
 import kr.ac.soup.repository.ReplyRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,19 +69,17 @@ class BoardServiceTest {
     }
 
     private void createDummyData() {
-        IntStream.range(1, 16).forEach(i -> {
+        LongStream.range(1, 16).forEach(i -> {
             Member member = Member.builder()
                     .email("test@test.test" + i)
                     .memberType(MemberType.USER)
                     .nickname("test" + i)
                     .password("tttt" + i)
                     .build();
-            memberRepository.save(member);
-        });
+            member = memberRepository.save(member);
 
-        LongStream.range(1, 16).forEach(i -> {
             Board board = Board.builder()
-                    .member(memberRepository.findById(i).get())
+                    .member(member)
                     .title("test" + i)
                     .content("" + i)
                     .build();
