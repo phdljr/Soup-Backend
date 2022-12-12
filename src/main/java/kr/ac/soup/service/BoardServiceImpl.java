@@ -1,6 +1,7 @@
 package kr.ac.soup.service;
 
 import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,18 +23,12 @@ public class BoardServiceImpl implements BoardService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<BoardResponseDto> getBoardList(int page) {
-        // 0이 1페이지로 인식
+    public BoardListPageResponseDto getBoardList(int page) {
         PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
         Page<Board> boardList = boardRepository.findAll(pageable);
 
-        return boardList.map(board ->
-                BoardResponseDto.builder()
-                        .id(board.getId())
-                        .title(board.getTitle())
-                        .registerDate(board.getRegisterDate())
-                        .build()
-        ).stream().toList();
+        BoardListPageResponseDto dto = new BoardListPageResponseDto(boardList);
+        return dto;
     }
 
     @Override
