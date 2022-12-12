@@ -46,6 +46,7 @@ public class BoardServiceImpl implements BoardService {
                     ReplyResponseDto replyDto = ReplyResponseDto.builder()
                             .boardId(board.getId())
                             .replyId(reply.getId())
+                            .registerDate(reply.getRegisterDate())
                             .modifyDate(reply.getModifyDate())
                             .nickname(reply.getMember().getNickname())
                             .content(reply.getContent())
