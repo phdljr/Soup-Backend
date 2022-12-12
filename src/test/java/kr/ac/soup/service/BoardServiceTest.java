@@ -64,7 +64,7 @@ class BoardServiceTest {
         createDummyData();
         BoardListPageResponseDto dto = boardService.getBoardList(1);
 
-        assertThat(dto.getBoardList().size()).isEqualTo(16);
+        assertThat(dto.getBoardList().size()).isEqualTo(10);
     }
 
     private void createDummyData() {

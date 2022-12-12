@@ -34,17 +34,4 @@ class MemberRepositoryTest {
 
         assertThat(findMember.get().getId()).isEqualTo(member.getId());
     }
-
-    @Test
-    public void 더미_데이터_생성() {
-        IntStream.range(1, 101).forEach(i -> {
-            Member member = Member.builder()
-                    .email("test@test.test" + i)
-                    .memberType(MemberType.USER)
-                    .nickname("test" + i)
-                    .password("tttt" + i)
-                    .build();
-            memberRepository.save(member);
-        });
-    }
 }
