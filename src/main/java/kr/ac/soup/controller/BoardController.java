@@ -1,6 +1,7 @@
 package kr.ac.soup.controller;
 
 import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.dto.response.BoardResponseDto;
 import kr.ac.soup.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -19,8 +19,8 @@ public class BoardController {
 
     // 게시글 목록 조회
     @GetMapping("/board")
-    public ResponseEntity<List<BoardResponseDto>> getBoardList(@RequestParam(required = false, defaultValue = "1") int page){
-        List<BoardResponseDto> result = boardService.getBoardList(page);
+    public ResponseEntity<BoardListPageResponseDto> getBoardList(@RequestParam(required = false, defaultValue = "1") int page){
+        BoardListPageResponseDto result = boardService.getBoardList(page);
         if (Objects.isNull(result)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

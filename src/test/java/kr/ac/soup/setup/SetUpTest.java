@@ -28,6 +28,7 @@ public class SetUpTest {
     protected Board board;
     protected Reply reply;
 
+    @Test
     public void createDummyData() {
         member = Member.builder()
                 .email("test@test.test")

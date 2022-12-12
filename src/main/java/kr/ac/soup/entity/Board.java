@@ -28,8 +28,22 @@ public class Board extends BaseEntity {
     private String content;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BoardLike> likes = new ArrayList<>();
+
+    public void doLike(BoardLike like){
+        likes.add(like);
+        like.setBoard(this);
+    }
+
+    public void undoLike(BoardLike like){
+        likes.remove(like);
+        like.setBoard(null);
+    }
 
     public void addReply(Reply reply){
         replies.add(reply);

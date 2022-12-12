@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,4 +18,5 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private LocalDateTime registerDate;
+    private List<ReplyResponseDto> replies;
 }
