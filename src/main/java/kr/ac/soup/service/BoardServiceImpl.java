@@ -3,6 +3,7 @@ package kr.ac.soup.service;
 import kr.ac.soup.dto.request.BoardPostRequestDto;
 import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.dto.response.BoardResponseDto;
+import kr.ac.soup.dto.response.ReplyResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.repository.BoardRepository;
@@ -12,7 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,17 +36,31 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional // Proxy를 초기화시킬려면 Repository의 Transaction을 끌고와야 함
     public BoardResponseDto getBoard(Long boardId) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
+        Board board = findBoard.get();
 
-        return findBoard.map(board ->
-                BoardResponseDto.builder()
+        List<ReplyResponseDto> repliesDto = new ArrayList<>();
+        board.getReplies().forEach(reply -> {
+                    ReplyResponseDto replyDto = ReplyResponseDto.builder()
+                            .boardId(board.getId())
+                            .replyId(reply.getId())
+                            .modifyDate(reply.getModifyDate())
+                            .nickname(reply.getMember().getNickname())
+                            .content(reply.getContent())
+                            .build();
+                    repliesDto.add(replyDto);
+                }
+        );
+
+        return BoardResponseDto.builder()
                         .id(board.getId())
                         .title(board.getTitle())
                         .content(board.getContent())
                         .registerDate(board.getRegisterDate())
-                        .build()
-        ).get();
+                        .replies(repliesDto)
+                        .build();
     }
 
     @Override
@@ -66,7 +84,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
-        if(findBoard.isEmpty()){
+        if (findBoard.isEmpty()) {
             return null;
         }
 
