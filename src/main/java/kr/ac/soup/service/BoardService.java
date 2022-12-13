@@ -9,11 +9,11 @@ import javax.management.InstanceNotFoundException;
 public interface BoardService {
     BoardListPageResponseDto getBoardList(int page);
 
-    BoardResponseDto getBoard(Long boardId) throws InstanceNotFoundException;
+    BoardResponseDto getBoard(Long boardId);
 
-    Long postBoard(BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException;
+    Long postBoard(BoardPostRequestDto boardPostRequestDto);
 
-    Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException;
+    Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto);
 
-    Long deleteBoard(Long boardId) throws InstanceNotFoundException;
+    Long deleteBoard(Long boardId);
 }

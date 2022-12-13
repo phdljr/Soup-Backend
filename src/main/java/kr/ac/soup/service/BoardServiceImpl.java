@@ -9,7 +9,6 @@ import kr.ac.soup.entity.Member;
 import kr.ac.soup.repository.BoardRepository;
 import kr.ac.soup.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -39,10 +38,10 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional // Proxy를 초기화시킬려면 Repository의 Transaction을 끌고와야 함
-    public BoardResponseDto getBoard(Long boardId) throws InstanceNotFoundException {
+    public BoardResponseDto getBoard(Long boardId) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
-        if(findBoard.isEmpty()){
-            throw new InstanceNotFoundException("게시글을 찾지 못하였습니다.");
+        if (findBoard.isEmpty()) {
+            throw new NullPointerException("게시글을 찾지 못하였습니다.");
         }
         Board board = findBoard.get();
 
@@ -61,19 +60,19 @@ public class BoardServiceImpl implements BoardService {
         );
 
         return BoardResponseDto.builder()
-                        .id(board.getId())
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .registerDate(board.getRegisterDate())
-                        .replies(repliesDto)
-                        .build();
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .registerDate(board.getRegisterDate())
+                .replies(repliesDto)
+                .build();
     }
 
     @Override
-    public Long postBoard(BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException {
+    public Long postBoard(BoardPostRequestDto boardPostRequestDto) {
         Optional<Member> findMember = memberRepository.findById(boardPostRequestDto.getMemberId());
         if (findMember.isEmpty()) {
-            throw new InstanceNotFoundException("유저를 찾지 못하였습니다.");
+            throw new NullPointerException("유저를 찾지 못하였습니다.");
         }
         Board board = Board.builder()
                 .member(findMember.get())
@@ -88,10 +87,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException {
+    public Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
         if (findBoard.isEmpty()) {
-            throw new InstanceNotFoundException("게시글을 찾지 못하였습니다.");
+            throw new NullPointerException("게시글을 찾지 못하였습니다.");
         }
 
         Board board = findBoard.get();
@@ -100,10 +99,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Long deleteBoard(Long boardId) throws InstanceNotFoundException {
+    public Long deleteBoard(Long boardId) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
-        if(findBoard.isEmpty()){
-            throw new InstanceNotFoundException("게시글을 찾지 못하였습니다.");
+        if (findBoard.isEmpty()) {
+            throw new NullPointerException("게시글을 찾지 못하였습니다.");
         }
         Board board = findBoard.get();
         board.deleteBoard();
