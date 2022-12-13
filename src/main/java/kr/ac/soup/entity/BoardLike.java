@@ -21,4 +21,8 @@ public class BoardLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }

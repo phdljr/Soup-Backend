@@ -4,14 +4,16 @@ import kr.ac.soup.dto.request.BoardPostRequestDto;
 import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.dto.response.BoardResponseDto;
 
+import javax.management.InstanceNotFoundException;
+
 public interface BoardService {
     BoardListPageResponseDto getBoardList(int page);
 
-    BoardResponseDto getBoard(Long boardId);
+    BoardResponseDto getBoard(Long boardId) throws InstanceNotFoundException;
 
-    Long postBoard(BoardPostRequestDto boardPostRequestDto);
+    Long postBoard(BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException;
 
-    Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto);
+    Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) throws InstanceNotFoundException;
 
-    Long deleteBoard(Long boardId);
+    Long deleteBoard(Long boardId) throws InstanceNotFoundException;
 }
