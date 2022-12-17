@@ -27,6 +27,8 @@ public class Board extends BaseEntity {
 
     private String content;
 
+    private Long hit;
+
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<>();

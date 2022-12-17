@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class BoardServiceImpl implements BoardService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public List<BoardResponseDto> getBoardList(int page) {
         // 0이 1페이지로 인식
         PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
@@ -32,7 +34,9 @@ public class BoardServiceImpl implements BoardService {
                 BoardResponseDto.builder()
                         .id(board.getId())
                         .title(board.getTitle())
+                        .nickname(board.getMember().getNickname())
                         .registerDate(board.getRegisterDate())
+                        .hit(board.getHit())
                         .build()
         ).stream().toList();
     }
@@ -47,6 +51,7 @@ public class BoardServiceImpl implements BoardService {
                         .title(board.getTitle())
                         .content(board.getContent())
                         .registerDate(board.getRegisterDate())
+                        .hit(board.getHit())
                         .build()
         ).get();
     }

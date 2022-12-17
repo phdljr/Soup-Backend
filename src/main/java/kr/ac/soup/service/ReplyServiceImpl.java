@@ -10,6 +10,7 @@ import kr.ac.soup.repository.MemberRepository;
 import kr.ac.soup.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final BoardRepository boardRepository;
 
     @Override
+    @Transactional
     public List<ReplyResponseDto> getReplyList(Long boardId) {
         List<Reply> replyList = replyRepository.findAllByBoardIdOrderByRegisterDateAsc(boardId);
         List<ReplyResponseDto> result = replyList.stream().map(reply -> ReplyResponseDto.builder()

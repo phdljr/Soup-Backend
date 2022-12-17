@@ -40,6 +40,7 @@ public class SetUpTest {
                 .member(member)
                 .title("testTitle")
                 .content("testContent")
+                .hit(10L)
                 .build();
         board = boardRepository.save(board);
         reply = Reply.builder()
@@ -56,15 +57,17 @@ public class SetUpTest {
             Member member = Member.builder()
                     .email("test@test.test" + i)
                     .memberType(MemberType.USER)
-                    .nickname("test" + i)
+                    .nickname("testNickname" + i)
                     .password("tttt" + i)
                     .build();
             member = memberRepository.save(member);
 
             Board board = Board.builder()
+                    .id(i)
                     .member(member)
-                    .title("test" + i)
+                    .title("testTitle" + i)
                     .content("" + i)
+                    .hit(i+5)
                     .build();
             board = boardRepository.save(board);
 
@@ -74,7 +77,7 @@ public class SetUpTest {
                 Reply reply = Reply.builder()
                         .board(finalBoard)
                         .member(finalMember)
-                        .content("test")
+                        .content("testContent")
                         .build();
                 replyRepository.save(reply);
             });

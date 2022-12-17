@@ -17,4 +17,5 @@ public class BoardResponseDto {
     private String title;
     private String content;
     private LocalDateTime registerDate;
+    private Long hit;
 }
