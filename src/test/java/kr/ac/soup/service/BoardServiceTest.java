@@ -2,7 +2,7 @@ package kr.ac.soup.service;
 
 import kr.ac.soup.config.web.WebConfig;
 import kr.ac.soup.dto.request.BoardPostRequestDto;
-import kr.ac.soup.dto.response.BoardResponseDto;
+import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.entity.MemberType;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -63,9 +62,9 @@ class BoardServiceTest {
     @Transactional
     void getBoardList() {
         createDummyData();
-        List<BoardResponseDto> boardList = boardService.getBoardList(1);
+        BoardListPageResponseDto dto = boardService.getBoardList(1);
 
-        assertThat(boardList.size()).isEqualTo(10);
+        assertThat(dto.getBoardList().size()).isEqualTo(10);
     }
 
     private void createDummyData() {

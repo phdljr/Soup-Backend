@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,4 +19,5 @@ public class BoardResponseDto {
     private String content;
     private LocalDateTime registerDate;
     private Long hit;
+    private List<ReplyResponseDto> replies;
 }

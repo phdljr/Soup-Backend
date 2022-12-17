@@ -30,8 +30,12 @@ public class Board extends BaseEntity {
     private Long hit;
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BoardLike> likes = new ArrayList<>();
 
     public void addReply(Reply reply){
         replies.add(reply);

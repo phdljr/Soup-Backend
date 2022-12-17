@@ -1,7 +1,9 @@
 package kr.ac.soup.service;
 
 import kr.ac.soup.dto.request.BoardPostRequestDto;
+import kr.ac.soup.dto.response.BoardListPageResponseDto;
 import kr.ac.soup.dto.response.BoardResponseDto;
+import kr.ac.soup.dto.response.ReplyResponseDto;
 import kr.ac.soup.entity.Board;
 import kr.ac.soup.entity.Member;
 import kr.ac.soup.repository.BoardRepository;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,36 +27,43 @@ public class BoardServiceImpl implements BoardService {
     private final MemberRepository memberRepository;
 
     @Override
-    @Transactional
-    public List<BoardResponseDto> getBoardList(int page) {
-        // 0이 1페이지로 인식
+    @Transactional // DTO에서 Member의 Nickname을 조회하기 때문에 설정
+    public BoardListPageResponseDto getBoardList(int page) {
         PageRequest pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Direction.DESC, "registerDate"));
         Page<Board> boardList = boardRepository.findAll(pageable);
 
-        return boardList.map(board ->
-                BoardResponseDto.builder()
-                        .id(board.getId())
-                        .title(board.getTitle())
-                        .nickname(board.getMember().getNickname())
-                        .registerDate(board.getRegisterDate())
-                        .hit(board.getHit())
-                        .build()
-        ).stream().toList();
+        BoardListPageResponseDto dto = new BoardListPageResponseDto(boardList);
+        return dto;
     }
 
     @Override
+    @Transactional // Proxy를 초기화시킬려면 Repository의 Transaction을 끌고와야 함
     public BoardResponseDto getBoard(Long boardId) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
+        Board board = findBoard.get();
 
-        return findBoard.map(board ->
-                BoardResponseDto.builder()
-                        .id(board.getId())
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .registerDate(board.getRegisterDate())
-                        .hit(board.getHit())
-                        .build()
-        ).get();
+        List<ReplyResponseDto> repliesDto = new ArrayList<>();
+        board.getReplies().forEach(reply -> {
+                    ReplyResponseDto replyDto = ReplyResponseDto.builder()
+                            .boardId(board.getId())
+                            .replyId(reply.getId())
+                            .registerDate(reply.getRegisterDate())
+                            .modifyDate(reply.getModifyDate())
+                            .nickname(reply.getMember().getNickname())
+                            .content(reply.getContent())
+                            .build();
+                    repliesDto.add(replyDto);
+                }
+        );
+
+        return BoardResponseDto.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .registerDate(board.getRegisterDate())
+                .replies(repliesDto)
+                .hit(board.getHit())
+                .build();
     }
 
     @Override
@@ -66,6 +76,7 @@ public class BoardServiceImpl implements BoardService {
                 .member(findMember.get())
                 .title(boardPostRequestDto.getTitle())
                 .content(boardPostRequestDto.getContent())
+                .hit(0L)
                 .build();
 
         // 위의 board랑 밑의 board는 서로 다른 객체라는 사실 잘 인지해두기
@@ -77,7 +88,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Long updateBoard(Long boardId, BoardPostRequestDto boardPostRequestDto) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
-        if(findBoard.isEmpty()){
+        if (findBoard.isEmpty()) {
             return null;
         }
 

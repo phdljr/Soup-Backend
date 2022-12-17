@@ -1,4 +1,4 @@
-package kr.ac.soup.dto;
+package kr.ac.soup.dto.request;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterDTO {
+public class RegisterRequestDto {
     private String email;
     private String password;
     private String nickname;
